@@ -1,5 +1,7 @@
 // CSV FORMAT IS
 // ID, name, timestamp, price now, price 1 day ago, price 7 days ago, price 30 days ago, 30 day min price, 30 day max price, 30 day average price
+// node makeCSV.js 1.json
+// node-debug makeCSV.js 1.json
 
 // load required
 var fs = require('fs');	// file write and read
