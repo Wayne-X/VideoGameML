@@ -5,10 +5,6 @@ def cat_url (i)
     "http://services.runescape.com/m=itemdb_rs/api/graph/#{i}.json"
 end
 
-def cat_alpha_to_str(cat)
-    cat == '#' ? '%23' : cat
-end
-
 def get_retry(url)
     res = ""
     while (res.length == 0) do
@@ -21,10 +17,12 @@ end
 IDArray = File.read("IDlist.txt").split(",").map(&:strip)
 len = IDArray.length
 k = 0
+# item_db = IDArray.slice(0...3).flat_map do |i|
 item_db = IDArray.flat_map do |i|
     obj = JSON.parse(get_retry(cat_url(i)))
     puts "got #{k} of #{len}"
     k+=1
+    obj
 end
 
 File.write('itemdata.json', JSON.fast_generate({"all" => item_db}))
