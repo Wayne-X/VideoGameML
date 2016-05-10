@@ -1,0 +1,16 @@
+node getItems.js 1.json >> itemIDs.txt
+node getItems.js 2.json >> itemIDs.txt
+node getItems.js 3.json >> itemIDs.txt
+node getItems.js 4.json >> itemIDs.txt
+node getItems.js 5.json >> itemIDs.txt
+node getItems.js 6.json >> itemIDs.txt
+node getItems.js 7.json >> itemIDs.txt
+node getItems.js 8.json >> itemIDs.txt
+node getItems.js 9.json >> itemIDs.txt
+node getItems.js 10.json >> itemIDs.txt
+node getItems.js 11.json >> itemIDs.txt
+node getItems.js 12.json >> itemIDs.txt
+node getItems.js 13.json >> itemIDs.txt
+node getItems.js 14.json >> itemIDs.txt
+node getItems.js 15.json >> itemIDs.txt
+node getItems.js 16.json >> itemIDs.txt
