@@ -29,9 +29,8 @@ function main(inStr){
 	// init
 	wstream = fs.createWriteStream(writeAddr);
 	arr = JSON.parse(inStr).all;
-	arr = arr.slice(0, 100);
+	// arr = arr.slice(0, 100);
 	wstream.write("ID,timestamp,price_now,price_one,price_seven,price_thirty,thirty_min,thirty_max,thirty_avg\n");
-
 
 
 	for (i in arr){
@@ -63,31 +62,35 @@ function main(inStr){
 	wstream.end();
 	console.log("done, closing");
 
-	// functions -------------------------------
-	function getMin(arr){
-		min = arr[0][1];
-		for (i in arr){
-			if (arr[i][1] < min){
-				min = arr[i][1];
-			}
-		}
-		return min;
-	}
+}
 
-	function getMax(arr){
-		max = arr[0][1];
-		for (i in arr){
-			if (arr[i][1] > max){
-				max = arr[i][1];
-			}
-		}
-		return max;	}
 
-	function getAvg(arr){
-		sum = 0;
-		for (i in arr){
-			sum += arr[i][1];
+// functions -------------------------------
+
+function getMin(inArr){
+	min = inArr[0][1];
+	for (k in inArr){
+		if (inArr[k][1] < min){
+			min = inArr[k][1];
 		}
-		return sum/arr.length;
 	}
+	return min;
+}
+
+function getMax(inArr){
+	max = inArr[0][1];
+	for (k in inArr){
+		if (inArr[k][1] > max){
+			max = inArr[k][1];
+		}
+	}
+	return max;	
+}
+
+function getAvg(inArr){
+	sum = 0;
+	for (k in inArr){
+		sum += inArr[k][1];
+	}
+	return sum/inArr.length;
 }
