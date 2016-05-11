@@ -18,11 +18,11 @@ IDArray = File.read("IDlist.txt").split(",").map(&:strip)
 len = IDArray.length
 k = 0
 # item_db = IDArray.slice(0...3).flat_map do |i|
-item_db = IDArray.flat_map do |i|
+item_db = IDArray.map do |i|
     obj = JSON.parse(get_retry(cat_url(i)))
     puts "got #{k} of #{len}"
     k+=1
-    obj
+    {"ID" => Integer(i), "data" => obj["daily"].map{|k,v| [Integer(k),v]}}
 end
 
 File.write('itemdata.json', JSON.fast_generate({"all" => item_db}))
@@ -40,3 +40,4 @@ File.write('itemdata.json', JSON.fast_generate({"all" => item_db}))
 #         end
 #     end
 # end
+    
