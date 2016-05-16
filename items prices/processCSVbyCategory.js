@@ -3,7 +3,7 @@
 // node-debug processCSVbyCategory.js itemdata_delay1_validate.csv  ../Item\ Data.json
 
 // load required
-var fs = require('fs');	// file write and read
+var fs = require('fs'); // file write and read
 
 fs.readFile(process.argv[2], 'utf8', function (err,csvstr) {
             if (err) {
