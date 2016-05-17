@@ -45,6 +45,7 @@ fs.readFile(srcAddr, 'utf8', function (err,data) {
     });
 });
 
+
 // write all, with category data
 function main0(inStr, data){
     // init
@@ -55,7 +56,7 @@ function main0(inStr, data){
     itemsHash = {};
     itemsArr.forEach(function (x) {itemsHash[String(x.id)] = x.type})
     // arr = arr.slice(0, 100);
-    wstream.write("ID,category,timestamp,price_now,price_one,price_seven,price_thirty,thirty_min,thirty_max,thirty_avg\n");
+    wstream.write("ID,category,timestamp,price_now,change_amt,change_type,price_one,price_seven,price_thirty,thirty_min,thirty_max,thirty_avg\n");
 
 
     for (i in arr){
@@ -64,8 +65,8 @@ function main0(inStr, data){
         }
 
         w_ID = String(arr[i].ID);
-        w_cat = itemsHash[w_ID];
-
+        w_cat = itemsHash[w_ID].replace (",","");
+        
         for (j=30; j<arr[i].data.length; j++){
             // check time difference
             // t = arr[i].data[j][0] - arr[i].data[j-1][0];
@@ -76,7 +77,10 @@ function main0(inStr, data){
             // if (w_timestamp == 1449964800000){
             //  console.log("problem");
             // }
-
+            
+            change = arr[i].data[j][1] - arr[i].data[j - 1][1];
+            w_change  = String(change / arr[i].data[j - 1][1]);
+            w_change_type = change > 0 ? "U" : (change === 0 ? "S" : "D");
             w_price_now = String(arr[i].data[j][1]);
             w_price_one = String(arr[i].data[j-1][1]);
             w_price_seven = String(arr[i].data[j-7][1]);
@@ -84,8 +88,7 @@ function main0(inStr, data){
             w_thirty_min = String(getMin(arr[i].data.slice(j-30, j)));
             w_thirty_max = String(getMax(arr[i].data.slice(j-30, j)));
             w_thirty_average = String(getAvg(arr[i].data.slice(j-30, j)));
-            // // console.log(w_ID + ',' +  w_name + ',' +  w_timestamp + ',' +  w_price_now + ',' +  w_price_one + ',' +  w_price_seven + ',' +  w_price_thirty + ',' +  w_thirty_min + ',' +  w_thirty_max + ',' +  w_thirty_average + '\n');
-            wstream.write(w_ID + ',' + w_cat + ',' +  w_timestamp + ',' +  w_price_now + ',' +  w_price_one + ',' +  w_price_seven + ',' +  w_price_thirty + ',' +  w_thirty_min + ',' +  w_thirty_max + ',' +  w_thirty_average + '\n');
+            wstream.write(w_ID + ',' + w_cat + ',' +  w_timestamp + ',' +  w_price_now + ',' + w_change + ',' + w_change_type + ',' +  w_price_one + ',' +  w_price_seven + ',' +  w_price_thirty + ',' +  w_thirty_min + ',' +  w_thirty_max + ',' +  w_thirty_average + '\n');
         }
     }
     wstream.end();
@@ -133,7 +136,7 @@ function main1(inStr, data){
     itemsHash = {};
     itemsArr.forEach(function (x) {itemsHash[String(x.id)] = x.type})
     // arr = arr.slice(0, 100);
-    wstream.write("ID,category,timestamp,price_now,price_one,price_seven,price_thirty,thirty_min,thirty_max,thirty_avg\n");
+    wstream.write("ID,category,timestamp,price_now,change_amt,change_type,price_one,price_seven,price_thirty,thirty_min,thirty_max,thirty_avg\n");
 
     sskipk = 0;
     bskipk = 0;
@@ -144,7 +147,7 @@ function main1(inStr, data){
         }
 
         w_ID = String(arr[i].ID);
-        w_cat = itemsHash[w_ID];
+        w_cat = itemsHash[w_ID].replace (",","");
 
         if (totalAverage(arr[i]) > 20000000){
             // console.log("skipping: " + w_ID + " with average: " + String(totalAverage(arr[i])));
@@ -172,7 +175,10 @@ function main1(inStr, data){
             // if (w_timestamp == 1449964800000){
             //  console.log("problem");
             // }
-
+            
+            change = arr[i].data[j][1] - arr[i].data[j - 1][1];
+            w_change  = String(change / arr[i].data[j - 1][1]);
+            w_change_type = change > 0 ? "U" : (change === 0 ? "S" : "D");
             w_price_now = String(arr[i].data[j][1]);
             w_price_one = String(arr[i].data[j-1][1]);
             w_price_seven = String(arr[i].data[j-7][1]);
@@ -180,8 +186,7 @@ function main1(inStr, data){
             w_thirty_min = String(getMin(arr[i].data.slice(j-30, j)));
             w_thirty_max = String(getMax(arr[i].data.slice(j-30, j)));
             w_thirty_average = String(getAvg(arr[i].data.slice(j-30, j)));
-            // // console.log(w_ID + ',' +  w_name + ',' +  w_timestamp + ',' +  w_price_now + ',' +  w_price_one + ',' +  w_price_seven + ',' +  w_price_thirty + ',' +  w_thirty_min + ',' +  w_thirty_max + ',' +  w_thirty_average + '\n');
-            wstream.write(w_ID + ',' + w_cat + ',' +  w_timestamp + ',' +  w_price_now + ',' +  w_price_one + ',' +  w_price_seven + ',' +  w_price_thirty + ',' +  w_thirty_min + ',' +  w_thirty_max + ',' +  w_thirty_average + '\n');
+            wstream.write(w_ID + ',' + w_cat + ',' +  w_timestamp + ',' +  w_price_now + ',' + w_change + ',' + w_change_type + ',' +  w_price_one + ',' +  w_price_seven + ',' +  w_price_thirty + ',' +  w_thirty_min + ',' +  w_thirty_max + ',' +  w_thirty_average + '\n');
         }
     }
     wstream.end();
@@ -254,7 +259,7 @@ function main2(inStr, data){
     itemsHash = {};
     itemsArr.forEach(function (x) {itemsHash[String(x.id)] = x.type})
     // arr = arr.slice(0, 100);
-    wstream.write("ID,category,timestamp,price_now,price_one,price_seven,price_thirty,thirty_min,thirty_max,thirty_avg\n");
+    wstream.write("ID,category,timestamp,price_now,change_amt,change_type,price_one,price_seven,price_thirty,thirty_min,thirty_max,thirty_avg\n");
 
     sskipk = 0;
     bskipk = 0;
@@ -265,7 +270,7 @@ function main2(inStr, data){
         }
 
         w_ID = String(arr[i].ID);
-        w_cat = itemsHash[w_ID];
+        w_cat = itemsHash[w_ID].replace (",","");
 
         if (totalAverage(arr[i].data) > 20000000){
             // console.log("skipping: " + w_ID + " with average: " + String(totalAverage(arr[i])));
@@ -293,7 +298,10 @@ function main2(inStr, data){
             // if (w_timestamp == 1449964800000){
             //  console.log("problem");
             // }
-
+            
+            change = arr[i].data[j][1] - arr[i].data[j - 1][1];
+            w_change  = String(change / arr[i].data[j - 1][1]);
+            w_change_type = change > 0 ? "U" : (change === 0 ? "S" : "D");
             w_price_now = String(arr[i].data[j][1]);
             w_price_one = String(arr[i].data[j-1][1]);
             w_price_seven = String(arr[i].data[j-7][1]);
@@ -301,8 +309,7 @@ function main2(inStr, data){
             w_thirty_min = String(getMin(arr[i].data.slice(j-30, j)));
             w_thirty_max = String(getMax(arr[i].data.slice(j-30, j)));
             w_thirty_average = String(getAvg(arr[i].data.slice(j-30, j)));
-            // // console.log(w_ID + ',' +  w_name + ',' +  w_timestamp + ',' +  w_price_now + ',' +  w_price_one + ',' +  w_price_seven + ',' +  w_price_thirty + ',' +  w_thirty_min + ',' +  w_thirty_max + ',' +  w_thirty_average + '\n');
-            wstream.write(w_ID + ',' + w_cat + ',' +  w_timestamp + ',' +  w_price_now + ',' +  w_price_one + ',' +  w_price_seven + ',' +  w_price_thirty + ',' +  w_thirty_min + ',' +  w_thirty_max + ',' +  w_thirty_average + '\n');
+            wstream.write(w_ID + ',' + w_cat + ',' +  w_timestamp + ',' +  w_price_now + ',' + w_change + ',' + w_change_type + ',' +  w_price_one + ',' +  w_price_seven + ',' +  w_price_thirty + ',' +  w_thirty_min + ',' +  w_thirty_max + ',' +  w_thirty_average + '\n');
         }
     }
     wstream.end();
