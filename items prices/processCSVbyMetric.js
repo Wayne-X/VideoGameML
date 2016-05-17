@@ -90,53 +90,6 @@ function main0(inStr, data){
     }
     wstream.end();
     console.log("done, closing");
-}
-
-// write all, with category data
-function main0(inStr, data){
-    // init
-    writeAddr = "by_metric/all_with_category.csv";
-    wstream = fs.createWriteStream(writeAddr);
-    arr = JSON.parse(inStr).all;
-    itemsArr = JSON.parse(data).items;
-    itemsHash = {};
-    itemsArr.forEach(function (x) {itemsHash[String(x.id)] = x.type})
-    // arr = arr.slice(0, 100);
-    wstream.write("ID,category,timestamp,price_now,price_one,price_seven,price_thirty,thirty_min,thirty_max,thirty_avg\n");
-
-
-    for (i in arr){
-        if (i % 100 == 0){
-            console.log("writing " + String(i) + " of " + String(arr.length));
-        }
-
-        w_ID = String(arr[i].ID);
-        w_cat = itemsHash[w_ID];
-
-        for (j=30; j<arr[i].data.length; j++){
-            // check time difference
-            // t = arr[i].data[j][0] - arr[i].data[j-1][0];
-            // if (t != 86400000){
-            //  console.log("bad time: " + String(t));
-            // }
-            w_timestamp = String(arr[i].data[j][0]);
-            // if (w_timestamp == 1449964800000){
-            //  console.log("problem");
-            // }
-
-            w_price_now = String(arr[i].data[j][1]);
-            w_price_one = String(arr[i].data[j-1][1]);
-            w_price_seven = String(arr[i].data[j-7][1]);
-            w_price_thirty = String(arr[i].data[j-30][1]);
-            w_thirty_min = String(getMin(arr[i].data.slice(j-30, j)));
-            w_thirty_max = String(getMax(arr[i].data.slice(j-30, j)));
-            w_thirty_average = String(getAvg(arr[i].data.slice(j-30, j)));
-            // // console.log(w_ID + ',' +  w_name + ',' +  w_timestamp + ',' +  w_price_now + ',' +  w_price_one + ',' +  w_price_seven + ',' +  w_price_thirty + ',' +  w_thirty_min + ',' +  w_thirty_max + ',' +  w_thirty_average + '\n');
-            wstream.write(w_ID + ',' + w_cat + ',' +  w_timestamp + ',' +  w_price_now + ',' +  w_price_one + ',' +  w_price_seven + ',' +  w_price_thirty + ',' +  w_thirty_min + ',' +  w_thirty_max + ',' +  w_thirty_average + '\n');
-        }
-    }
-    wstream.end();
-    console.log("done, closing");
 
     // functions -------------------------------
 
@@ -291,7 +244,7 @@ function main1(inStr, data){
 }
 
 // remove if average > 2 bil or < 10
-// if total change < 10% avg price
+// if total % change < 10% avg price
 function main2(inStr, data){
     // init
     writeAddr = "by_metric/change_sum_metric.csv";
@@ -355,7 +308,7 @@ function main2(inStr, data){
     wstream.end();
     console.log("items skipped to <10 average: " + String(sskipk));
     console.log("items skipped to >2bil average: " + String(bskipk));
-    console.log("items skipped to total change < 50% avg price: " + String(sumk));
+    console.log("items skipped to total % change < 0.5: " + String(sumk));
     console.log("done, closing");
 
     // functions -------------------------------
@@ -363,11 +316,11 @@ function main2(inStr, data){
     function badSumCheck(a){
         s = 0;
         for (k=1; k<a.length; k++){
-            s += Math.abs(a[k][1] - a[k-1][1]);
+            s += Math.abs(a[k][1] - a[k-1][1]) / a[k][1];
         }
         // console.log("total change: " + String(s));
         // console.log("average change: " + String(totalAverage(a)) + "\n");
-        if (s < (0.1*totalAverage(a))){
+        if (s < 0.5){
             return true;
         }
     }
@@ -409,4 +362,3 @@ function main2(inStr, data){
         return sum/inArr.length;
     }
 }
-
