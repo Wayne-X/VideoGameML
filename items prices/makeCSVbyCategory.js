@@ -1,9 +1,11 @@
-// node processCSVbyCategory.js itemdataWithCategory.csv
+// node makeCSVbyCategory.js itemdataWithCategory.csv
+// splits itemdata with category csv into separate files by category
 
 // load required
 var fs = require('fs'); // file write and read
 
-fs.readFile(process.argv[2], 'utf8', function (err,csvstr) {
+fs.readFile(String(process.argv[2]), 'utf8', function (err,csvstr) {
+    // console.log("got this far");
     if (err) {
         console.log("Bad list source address");
         return;
@@ -12,7 +14,6 @@ fs.readFile(process.argv[2], 'utf8', function (err,csvstr) {
 });
 
 function main(csvstr){
-    // console.log("got this far");
     csvArr = csvstr.split("\n");
     catHash = {};
     
@@ -38,7 +39,7 @@ function main(csvstr){
 }
 
 function writeToFile(cat, text){
-    fs.writeFile("by_category/"+cat+".csv", text, function(err) {
+    fs.writeFile("by_category2/"+cat+".csv", text, function(err) {
         if(err) {
             return console.log(err);
         }

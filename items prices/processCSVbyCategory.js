@@ -1,6 +1,6 @@
-// node processCSVbyCategory.js itemdata.csv ../Item\ Data.json
-// node processCSVbyCategory.js itemdata_delay1_validate.csv  ../Item\ Data.json
-// node-debug processCSVbyCategory.js itemdata_delay1_validate.csv  ../Item\ Data.json
+// node processCSVbyCategory.js itemdata.csv itemdata.json
+// node processCSVbyCategory.js itemdata_delay1_validate.csv itemdata.json
+// node-debug processCSVbyCategory.js itemdata_delay1_validate.csv itemdata.json
 
 // load required
 var fs = require('fs'); // file write and read
@@ -24,7 +24,7 @@ function main(csvstr, data){
     csvArr = csvstr.split("\n");
     itemsArr = JSON.parse(data).items;
     itemsHash = {};
-    itemsArr.forEach(function (x) {itemsHash[String(x.id)] = x.type})
+    itemsArr.forEach(function (x) {itemsHash[String(x.id)] = x.type.replace(/,/g, '')})
     wstream = fs.createWriteStream("itemdataWithCategory.csv");
     wstream.write("ID,category,timestamp,price_now,price_one,price_seven,price_thirty,thirty_min,thirty_max,thirty_avg\n");
     for (i=1; i<csvArr.length; i++){
@@ -36,14 +36,17 @@ function main(csvstr, data){
         cat = itemsHash[String(csvID)];
         if (cat !== undefined){
             csvRow.splice(1, 0, cat);
-            for (j in csvRow){
+            for (j=0; j<csvRow.length - 1; j++){
+            // for (j in csvRow){
                 wstream.write(csvRow[j] + ',');
             }
+            wstream.write(csvRow[csvRow.length - 2]);
             wstream.write("\n");
         }
-        else {
-            console.log("missing data for ID: " + String(csvID));
-        }
+        // else {
+        //     console.log("missing data for ID: " + String(csvID));
+        // }
     }
+    console.log("finished, closing");
     wstream.end();
 }
