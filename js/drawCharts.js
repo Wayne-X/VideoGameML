@@ -8,7 +8,7 @@ google.charts.setOnLoadCallback(drawChart);
 // instantiates the pie chart, passes in the data and
 // draws it.
 function drawChart() {
-  $.get("../csv/chart1.csv", function(csvString) {
+  $.get("csv/chart1.csv", function(csvString) {
     // transform the CSV string into a 2-dimensional array
     var arrayData = csvString.split("\n").map(function(x){return(x.split(","))});
     for (i=1; i<arrayData.length; i++){
