@@ -1,0 +1,4 @@
+@RELATION item_data_with_trends
+
+@ATTRIBUTE ID NUMERIC
+@ATTRIBUTE category {"Ammo","Costumes","Herblore materials","Melee armour - high level","Mining and Smithing","Range armour","Summoning scrolls","Arrows","Crafting materials","Hunting equipment","Melee armour - low level","Miscellaneous","Range weapons","Tools and containers","Bolts","Familiars","Hunting Produce","Melee armour - mid level","Pocket items","Runecrafting","Woodcutting product","Construction materials","Farming produce","Jewellery","Melee weapons - high level","Potions","Runes","Construction products","Fletching materials","Mage armour","Melee weapons - low level","Prayer armour","Runes Spells and Teleports","Cooking ingredients","Food and Drink","Mage weapons","Melee weapons - mid level","Prayer materials","Seeds"}
