@@ -1,0 +1,17 @@
+Predict next change amount:
+ZeroR: R = -0.0039
+
+Predict change type (up/down/same) on crafting material category:
+ZeroR: Accuracy = 56.685% (predict no change) f-measure 0.41
+J48 default: 70.0979% acc, f-measure 0.684
+	changing settings didn't affect results much
+Random forest default: 67.6758% acc, f-measure 0.671
+	4 attributes depth 3 150 trees: 58% acc
+REPTree default: 69.1131% acc, f-measure 0.675
+IBk default: 65.8716% acc, f-measure 0.654
+	2 neighbor: 63.2722% acc
+	3 neighbor: 68.8257% acc f-measure 0.683
+	4 neighbor: 68.3058% acc f-measure 0.68
+	5 neighbor: 69.7615% acc f-measure 0.692
+	10 neighbor weight by 1/dist: 70.5627% acc f-measure 0.69
+MultilayerPerceptron default: 56.685% acc
