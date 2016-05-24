@@ -1,5 +1,13 @@
 Predict next change amount:
-ZeroR: R = -0.0039
+ZeroR: R = -0.0226
+REPTree default: 0.1742
+IBk default: 0.2442
+	2 neighbor: 0.314
+	3 neighbor: 0.31
+	4 neighbor: 0.2966
+	5 neighbor: 0.2785
+MultilayerPerceptron: 0.0328
+
 
 Predict change type (up/down/same) on crafting material category:
 ZeroR: Accuracy = 56.685% (predict no change) f-measure 0.41
