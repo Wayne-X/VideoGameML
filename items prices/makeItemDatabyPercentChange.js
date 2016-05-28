@@ -1,5 +1,5 @@
 // node makeItemDatabyPercentChange.js itemdataWithCategory.csv 30
-// node makeItemDatabyPercentChange.js csvfile daysToCompare
+// node makeItemDatabyPercentChange.js csvfile daysToCompare[1, 7, 30]
 // node makeItemDatabyPercentChange.js testItemdataWithCategory.csv 30
 
 
@@ -23,7 +23,7 @@ switch (process.argv[3]){
 		index.priceCompare = 5;
 		break;
 	case "30":
-		index.priceCompare = 4;
+		index.priceCompare = 6;
 		break;
 	default:
 		console.log("ERROR: unknown daysToCompare parameter: " + String(process.argv[3]));
