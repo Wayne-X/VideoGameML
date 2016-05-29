@@ -1,98 +1,125 @@
-// node makeItemDatabyPercentChange.js itemdataWithCategory.csv 30
-// node makeItemDatabyPercentChange.js csvfile daysToCompare[1, 7, 30]
-// node makeItemDatabyPercentChange.js testItemdataWithCategory.csv 30
-
+// node makeItemDatabyPercentChange.js
 
 // load required
 var fs = require('fs'); // file write and read
 
 daysToCompare = Number(process.argv[3]);
-addrHeader = "by_category_with_percent_change_over_" + String(daysToCompare) + "_days/"
+addrHeader = "by_category_with_percent_change/";
 
-// get index of dayToCompare
-index = {
-	category: 1,
-	priceNow: 3, 
-	priceCompare: -1,
-};
-switch (process.argv[3]){
-	case "1":
-		index.priceCompare = 4;
-		break;
-	case "7":
-		index.priceCompare = 5;
-		break;
-	case "30":
-		index.priceCompare = 6;
-		break;
-	default:
-		console.log("ERROR: unknown daysToCompare parameter: " + String(process.argv[3]));
-		return
-		break;
-}
 
-fs.readFile(process.argv[2], 'utf8', function (err,csvstr) {
+fs.readFile("itemprices.json", 'utf8', function (err, prices) {
 	if (err) {
-		console.log("Bad csv source address");
+		console.log("Bad itemprices source address");
 		return;
 	}
-	main(csvstr);
+	fs.readFile("itemdata.json", 'utf8', function (err, cats) {
+		if (err) {
+			console.log("Bad itemdata source address");
+			return;
+		}
+		main(prices, cats);
+	});
 });
 
+function main(prices, cats){
+	prices = JSON.parse(prices).all;
+	cats = JSON.parse(cats).items;
+	cat_hash = {};
+	cats.forEach(function(x, i){
+		cat_hash[String(x.id)] = String(x.type).replace(/,/g, '');
+	});
 
-function main(items){
-	// process
-	items = items.split("\n");
-    items.shift();
-    if(items[items.length-1] == ""){items.pop();}
+	write_hash = {};
+	// for each item
+	// for each entry in that item
+	// get the metrics to create a few lines
+	// and push those lines to the appropriate category in write_hash
+	for (i=0; i<prices.length; i++){
+		x = prices[i];
+		if(i%Math.round(prices.length/20)==0){console.log("Processing " + String(i) + " of " + String(prices.length));}
+		// for each item
+		i_id = String(x.ID);
+		i_cat = cat_hash[String(i_id)];
+		i_s = "";
+		for (j=0; j<x.data.length; j++){
+			// for each entry in that item
+			if(j<30){continue;}
+			y = x.data[j]
+			// get the metrics to create a few lines
+			i_s += String(i_id) + ",";				// ID
+			i_s += String(i_cat) + ",";				// category
+			i_s += String(y[0]) + ",";				// timestamp
+			i_s += String(y[1]) + ",";				// price_now
+			i_s += String(x.data[j-1][1]) + ",";			// price_one
+			i_s += String(x.data[j-7][1]) + ",";			// price_seven
+			i_s += String(x.data[j-30][1]) + ",";		// price_thirty
+			i_s += String(getMin(x.data.slice(j-29, j-29+30))) + ",";		// thirty_min
+			i_s += String(getMax(x.data.slice(j-29, j-29+30))) + ",";		// thirty_max
+			i_s += String(getAvg(x.data.slice(j-29, j-29+30))) + ",";		// thirty_avg
+			// day by day percent change for 30 day range
+			for (k=0; k<29; k++){
+				i_s += String(getPChange(x.data.slice(j-29, j-29+30), k)) + ",";
+			}
+			i_s = i_s.slice(0, -1);
+			i_s += "\n";
+			// console.log("j: " + j);
 
-    // put into object
-    itemsObj = {};
-    console.log("Step 1/3: PROCESSING");
-    items.map(function(x, i, a){
-    	if(i%Math.round(a.length/10)==0){console.log("processing " + String(i) + " of " + String(a.length))}
-    	xarr = x.split(",");
-    	xarr.push(getChange(xarr));
-    	category = xarr[index.category];
-    	if (itemsObj[category] == undefined){itemsObj[category] = [];}
-    	itemsObj[category].push(xarr);
-    });
+		};
+		// console.log("NEW ITEM -------------------------------------");
+		// and push those lines to the appropriate category in write_hash
+		if(write_hash[i_cat]==undefined){write_hash[i_cat] = "";}
+		write_hash[i_cat] += i_s;
+	};	
 
-    // prepare
-    console.log("Step 2/3: MAKING STRING");
-    k = 0;
-	for (var key in itemsObj) {
-	if (itemsObj.hasOwnProperty(key)) {
-		if(k%Math.round(itemsObj.length/10)==0){console.log("processing " + String(k) + " of " + String(itemsObj.length))}
-		s = "ID,category,timestamp,price_now,price_one,price_seven,price_thirty,thirty_min,thirty_max,thirty_avg,";
-		s += "percent_change_over_" + String(daysToCompare) + "_days\n";
-		itemsObj[key].map(function(x, i, a){
-			s += String(x) + "\n";
-		})
-		itemsObj[key] = s;
-		k += 1;
-	}
-	}
-
-    // print
-    console.log("Step 3/3: WRITING");
+	// write to file
 	fs.mkdir(addrHeader, function(err) {
-		k = 0;
-		for (var key in itemsObj) {
-		if (itemsObj.hasOwnProperty(key)) {
-			if(k%Math.round(itemsObj.length/10)==0){console.log("processing " + String(k) + " of " + String(itemsObj.length))}
+		header = "ID,category,timestamp,price_now,price_one,price_seven,price_thirty,thirty_min,thirty_max,thirty_avg,";
+		for (var jj=0; jj<29; jj++){header+="p_change_day"+String(jj)+"_to_day"+String(jj+1)+",";}
+		header = header.slice(0, -1);
+		header += "\n";
+		for (var key in write_hash) {
+		if (write_hash.hasOwnProperty(key)) {
+			console.log("Writing to: " + addrHeader + String(key) + ".csv");
 	    	csvAddr = addrHeader + String(key) + ".csv"
-	    	fs.writeFileSync(csvAddr, itemsObj[key]);
+	    	fs.writeFileSync(csvAddr, header + write_hash[key]);
 		}
 		}
     	console.log("fkn done yeh");
 	});
 }
 
-function getChange(arr){
-	priceNow = Number(arr[index.priceNow]);
-	priceCompare = Number(arr[index.priceCompare]);
-	// console.log("Change of: " + String((priceCompare - priceNow) /priceNow *100));
-	// console.log("         : " + String(priceNow) + ", " + String(priceCompare));
-	return String((priceCompare - priceNow) /priceNow *100) + "%";
+// functions -------------------------------
+
+getMin = function(inArr){
+	min = inArr[0][1];
+	for (k in inArr){
+		if (inArr[k][1] < min){
+			min = inArr[k][1];
+		}
+	}
+	return min;
+}
+
+getMax = function(inArr){
+	max = inArr[0][1];
+	for (k in inArr){
+		if (inArr[k][1] > max){
+			max = inArr[k][1];
+		}
+	}
+	return max;	
+}
+
+getAvg = function(inArr){
+	sum = 0;
+	for (k in inArr){
+		sum += inArr[k][1];
+	}
+	return sum/inArr.length;
+}
+
+getPChange = function(arr, k){
+	t = arr[arr.length-1-k][1];
+	s = arr[((arr.length-1)-k)-1][1];
+	return String(((t-s) /s) *100);
 }
