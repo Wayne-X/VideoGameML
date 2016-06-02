@@ -44,25 +44,38 @@ function main(prices, cats){
 		for (j=0; j<x.data.length; j++){
 			// for each entry in that item
 			if(j<30){continue;}
+            temp = "";
 			y = x.data[j]
 			// get the metrics to create a few lines
-			i_s += String(i_id) + ",";				// ID
-			i_s += String(i_cat) + ",";				// category
-			i_s += String(y[0]) + ",";				// timestamp
-			i_s += String(y[1]) + ",";				// price_now
-			i_s += String(x.data[j-1][1]) + ",";			// price_one
-			i_s += String(x.data[j-7][1]) + ",";			// price_seven
-			i_s += String(x.data[j-30][1]) + ",";		// price_thirty
-			i_s += String(getMin(x.data.slice(j-29, j-29+30))) + ",";		// thirty_min
-			i_s += String(getMax(x.data.slice(j-29, j-29+30))) + ",";		// thirty_max
-			i_s += String(getAvg(x.data.slice(j-29, j-29+30))) + ",";		// thirty_avg
+			temp += String(i_id) + ",";				// ID
+			temp += String(i_cat) + ",";				// category
+			temp += String(y[0]) + ",";				// timestamp
+			temp += String(y[1]) + ",";				// price_now
+			temp += String(x.data[j-1][1]) + ",";			// price_one
+			temp += String(x.data[j-7][1]) + ",";			// price_seven
+			temp += String(x.data[j-30][1]) + ",";		// price_thirty
+			temp += String(getMin(x.data.slice(j-29, j-29+30))) + ",";		// thirty_min
+			temp += String(getMax(x.data.slice(j-29, j-29+30))) + ",";		// thirty_max
+			temp += String(getAvg(x.data.slice(j-29, j-29+30))) + ",";		// thirty_avg
+            // change type
+            change01 = getPChange(x.data.slice(j-29, j-29+30), 0);
+            temp += change01 == 0 ? "S" : (change01 > 0 ? "U" : "D");
+            temp += ",";
 			// day by day percent change for 30 day range
+            valid = true;
 			for (k=0; k<29; k++){
-				i_s += String(getPChange(x.data.slice(j-29, j-29+30), k)) + ",";
-			}
-			i_s = i_s.slice(0, -1);
-			i_s += "\n";
+                change = getPChange(x.data.slice(j-29, j-29+30), k);
+                valid = Math.abs(change) < 8;
+                if(!valid){break;}
+				temp += String(change) + ",";
+            }
+            // skip instances capturing manual adjustments
+            if(!valid){continue;}
+			temp = temp.slice(0, -1);
+			temp += "\n";
 			// console.log("j: " + j);
+            
+            i_s += temp;
 
 		};
 		// console.log("NEW ITEM -------------------------------------");
@@ -73,7 +86,7 @@ function main(prices, cats){
 
 	// write to file
 	fs.mkdir(addrHeader, function(err) {
-		header = "ID,category,timestamp,price_now,price_one,price_seven,price_thirty,thirty_min,thirty_max,thirty_avg,";
+		header = "ID,category,timestamp,price_now,price_one,price_seven,price_thirty,thirty_min,thirty_max,thirty_avg,01_change_type,";
 		for (var jj=0; jj<29; jj++){header+="p_change_day"+String(jj)+"_to_day"+String(jj+1)+",";}
 		header = header.slice(0, -1);
 		header += "\n";

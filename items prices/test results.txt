@@ -1,3 +1,4 @@
+USING 7 ATTRIBUTES:
 Predict next change amount:
 ZeroR: R = -0.0226
 REPTree default: 0.1742
@@ -23,3 +24,32 @@ IBk default: 65.8716% acc, f-measure 0.654
 	5 neighbor: 69.7615% acc f-measure 0.692
 	10 neighbor weight by 1/dist: 70.5627% acc f-measure 0.69
 MultilayerPerceptron default: 56.685% acc
+
+USING 30 DAYS CHANGE:
+Predict next change amount:
+ZeroR: R = -0.0168
+REPTree default: 0.4576
+AdditiveRegression (composite regression):
+	Decision stumps: 0.4507
+	Depth 2 REPTree: 0.4666
+	Depth 3 REPTree: 0.4713
+IBk default: 0.2695
+Perceptron (slow): 0.3015
+Isotonic Regression (slow): 0.4585
+Pace Regression: 0.4527
+
+Predict change type (up/down/same) on crafting material category:
+ZeroR: Accuracy = 55.9615% (predict no change) f-measure 0.402
+J48 default: 72.9502% acc, f-measure 0.725
+	adding reduced error pruning: 74.8443%, f-measure 0.743
+Random forest default: 76.5522% acc, f-measure 0.758
+	4 attributes depth 3 150 trees: 73.9518% acc f-measure: 0.713
+REPTree default: 74.2279% acc, f-measure 0.735
+IBk default: 66.7737% acc, f-measure 0.653
+	4 neighbor: 67.9165% acc f-measure 0.659
+	10 neighbor no weight: 68.077% acc f-measure 0.647
+	10 neighbor weight by 1/dist: 68.0514% acc f-measure 0.645
+	10 neighbor weight by 1-dist: 68.0257% acc f-measure 0.644
+MultilayerPerceptron default (very slow): 69.6051% acc f-measure 0.682
+AdaBoost default (DecisionStump): 62.0096% acc f-measure 0.569
+	Depth 2 REPTree: 72.6356% acc f-measure 0.717
