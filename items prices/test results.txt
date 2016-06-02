@@ -1,3 +1,4 @@
+USING 7 ATTRIBUTES:
 Predict next change amount:
 ZeroR: R = -0.0226
 REPTree default: 0.1742
@@ -18,8 +19,77 @@ Random forest default: 67.6758% acc, f-measure 0.671
 REPTree default: 69.1131% acc, f-measure 0.675
 IBk default: 65.8716% acc, f-measure 0.654
 	2 neighbor: 63.2722% acc
+
 	3 neighbor: 68.8257% acc f-measure 0.683
 	4 neighbor: 68.3058% acc f-measure 0.68
 	5 neighbor: 69.7615% acc f-measure 0.692
 	10 neighbor weight by 1/dist: 70.5627% acc f-measure 0.69
 MultilayerPerceptron default: 56.685% acc
+
+USING 30 DAYS CHANGE:
+Predict next change amount:
+ZeroR: R = -0.0168
+REPTree default: 0.4576
+AdditiveRegression (composite regression):
+	Decision stumps: 0.4507
+	Depth 2 REPTree: 0.4666
+	Depth 3 REPTree: 0.4713
+IBk default: 0.2695
+Perceptron (slow): 0.3015
+Isotonic Regression (slow): 0.4585
+Pace Regression: 0.4527
+
+Predict change type (up/down/same) on crafting material category:
+ZeroR: Accuracy = 55.9615% (predict no change) f-measure 0.402
+J48 default: 72.9502% acc, f-measure 0.725
+	adding reduced error pruning: 74.8443%, f-measure 0.743
+Random forest default: 76.5522% acc, f-measure 0.758
+	4 attributes depth 3 150 trees: 73.9518% acc f-measure: 0.713
+REPTree default: 74.2279% acc, f-measure 0.735
+IBk default: 66.7737% acc, f-measure 0.653
+	4 neighbor: 67.9165% acc f-measure 0.659
+	10 neighbor no weight: 68.077% acc f-measure 0.647
+	10 neighbor weight by 1/dist: 68.0514% acc f-measure 0.645
+	10 neighbor weight by 1-dist: 68.0257% acc f-measure 0.644
+MultilayerPerceptron default (very slow): 69.6051% acc f-measure 0.682
+AdaBoost default (DecisionStump): 62.0096% acc f-measure 0.569
+	Depth 2 REPTree: 72.6356% acc f-measure 0.717
+
+75/25 splits on full data
+Amt:
+REPTree: R=0.4947
+AdditiveRegression
+	D3 REPTree: 0.4503
+large Random tree and random forest don't work
+
+Change type:
+REPT default a 84.9403% f 0.844
+j48 default a 83.9296% f 0.834
+both are higher than if crafting materials alone is done 75/25 (overall data is about 75% no change)
+
+1 day results: we have a roughly 2:4:1 ratio of items that go down/up/same for instances we predict will go up, and we capture about 53% of the "up" instances properly, incorrectly marking the others about 50/50 as down/same
+
+extrapolate: REPT tree seem to often feed into a loop - would mostly input the exact same predictions for everything
+
+random trees seem to overfit, but testing to see if that matters for extrapolation
+30 days
+all perceptron
+41.3% accuracy
+cat perceptron
+32.7% accuracy
+all REPTree
+52.3%
+cat REPTree
+52.3%
+cat random forest
+51.9%
+all bagging
+44.2%
+cat bagging
+48.1%
+cat random tree
+48.1%
+all d15 random tree
+56.7%
+cat d15 random tree
+61.5%
