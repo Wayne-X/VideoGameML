@@ -19,13 +19,19 @@ len = IDArray.length
 k = 0
 # item_db = IDArray.slice(0...3).flat_map do |i|
 item_db = IDArray.map do |i|
-    obj = JSON.parse(get_retry(cat_url(i)))
-    puts "got #{k} of #{len}"
-    k+=1
-    {"ID" => Integer(i), "data" => obj["daily"].map{|k,v| [Integer(k),v]}}
+    begin
+        obj = JSON.parse(get_retry(cat_url(i)))
+        puts "got #{k} of #{len}"
+        k+=1
+        {"ID" => Integer(i), "data" => obj["daily"].map{|k,v| [Integer(k),v]}}
+    rescue
+        puts "failed #{k} of #{len}"
+        {"ID" => Integer(i), "data" => "failed"}
+    end
 end
 
-File.write('itemdata.json', JSON.fast_generate({"all" => item_db}))
+filename = "itemdata_at_" + Time.now.strftime("%d-%m-%Y_%H-%M") + ".json"
+File.write(filename, JSON.fast_generate({"all" => item_db}))
 
 # item_db = IDArray.flat_map do |i|
 #     puts "itemID #{i}:"

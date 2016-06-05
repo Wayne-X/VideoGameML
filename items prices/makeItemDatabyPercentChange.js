@@ -1,13 +1,23 @@
-// node makeItemDatabyPercentChange.js
+// node makeItemDatabyPercentChange.js itemdata_at_04-06-2016_21-09.json
 
 // load required
 var fs = require('fs'); // file write and read
 
-daysToCompare = Number(process.argv[3]);
-addrHeader = "by_category_with_percent_change/";
+itemdataaddr = process.argv[2]
+daysToCompare = 30;
+
+t = new Date();
+d =
+	String(t.getMonth())+"-"+
+	String(t.getDate())+"-"+
+	String(t.getFullYear())+"_"+
+	String(t.getHours())+"-"+
+	String(t.getMinutes());
+
+addrHeader = "by_category_with_percent_change_at_"+d+"/";
 
 
-fs.readFile("itemprices.json", 'utf8', function (err, prices) {
+fs.readFile(itemdataaddr, 'utf8', function (err, prices) {
 	if (err) {
 		console.log("Bad itemprices source address");
 		return;
