@@ -67,6 +67,7 @@ function main(prices, cats){
             temp += String(getMin(x.data.slice(j-29, j-29+30))) + ",";		// thirty_min
             temp += String(getMax(x.data.slice(j-29, j-29+30))) + ",";		// thirty_max
             temp += String(getAvg(x.data.slice(j-29, j-29+30))) + ",";		// thirty_avg
+>>>>>>> origin/item-prices
             // change type
             change01 = getPChange(x.data.slice(j-29, j-29+30), 0);
             temp += change01 == 0 ? "S" : (change01 > 0 ? "U" : "D");
