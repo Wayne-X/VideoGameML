@@ -176,7 +176,42 @@
         <div class="row">
             <h1>Results</h1>
             <div class="container">
-                <h3><em>Long term predictions 104 crafting items</em></h3>
+                <h3><em>Short term predictions, crafting only</em></h3>
+                <table class="table table-bordered table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th>Learner</th>
+                            <th>Accuracy</th>
+                            <th>F-Measure</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ZeroR</td>
+                            <td>56.685%</td>
+                            <td>0.410</td>
+                        </tr>
+                        <tr>
+                            <td>J48</td>
+                            <td>74.8443%</td>
+                            <td>0.743</td>
+                        </tr>
+                        <tr>
+                            <td>Multilayer Perceptron</td>
+                            <td>69.6051%</td>
+                            <td>0.081</td>
+                        </tr>
+                        <tr>
+                            <td>k-Nearest Neighbor</td>
+                            <td>66.7737%</td>
+                            <td>0.064</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>
+                    The learners perform reasonably well on immediate validation data, without applying our iterative prediction extender.
+                </p>
+                <h3><em>Long term predictions crafting and all</em></h3>
                 <table class="table table-bordered table-hover table-sm">
                     <thead>
                         <tr>
