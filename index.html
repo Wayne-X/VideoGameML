@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Title</title>
+    <title>Video Game Machine Learning</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -20,6 +20,8 @@
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <link rel="shortcut icon" href="favicon.ico" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -35,6 +37,7 @@
         <div class="jumbotron">
             <h1>
                 Video Game Machine Learning<br>
+                <small>Abstract</small>
             </h1>
             <h2> 
                 <small>
@@ -51,48 +54,70 @@
             </h3>
             <br>
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="row">
-                        <div class="col-md-2"></div>
-                        <div class="col-md-8">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
                             <a class="btn btn-block btn-primary" href="#s1" role="button">
                                 Introduction
                             </a>
                         </div>
-                        <div class="col-md-2"></div>
+                        <div class="col-md-1"></div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="row">
-                        <div class="col-md-2"></div>
-                        <div class="col-md-8">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
                             <a class="btn btn-block btn-success" href="#s2" role="button">
                                 Methodology
                             </a>
                         </div>
-                        <div class="col-md-2"></div>
+                        <div class="col-md-1"></div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="row">
-                        <div class="col-md-2"></div>
-                        <div class="col-md-8">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
                             <a class="btn btn-block btn-warning" href="#s3" role="button">
                                 Results
                             </a>
                         </div>
-                        <div class="col-md-2"></div>
+                        <div class="col-md-1"></div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="row">
-                        <div class="col-md-2"></div>
-                        <div class="col-md-8">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
                             <a class="btn btn-block btn-danger" href="#s4" role="button">
                                 Conclusion
                             </a>
                         </div>
-                        <div class="col-md-2"></div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <a class="btn btn-block btn-primary" href="/full" role="button">
+                                Full Report
+                            </a>
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <a class="btn btn-block btn-success" href="#s5" role="button">
+                                Contact
+                            </a>
+                        </div>
+                        <div class="col-md-1"></div>
                     </div>
                 </div>
             </div>
@@ -107,10 +132,10 @@
             <div class="container">
                 <em><h3>Motivation</em></h3>
                 <p>
-                    In this project, we apply machine learning techniques to predict the prices of goods in a video game’s virtual economy. This task is similar to the classic task of predicting stock prices on the stock market, yet also has the added novelty of being tied into the video game’s well defined dynamics, making this a very interesting task. For example, while stocks in the real marketplace exhibit chaotic and uncertain relationships with one another, video game market items have pre-programmed and well-documented interactions and relationships (e.g. metal ore → bar → weapons/armor). These relationships are seldom leveraged by people to run predictions on the virtual market. Choosing a virtual game-based economy gives us an opportunity to pioneer the entire machine learning process all the way from data acquisition and processing to feature and learner selection in a classically familiar yet unique space.
+                    In this project, we apply machine learning techniques to predict the prices of goods in a video game’s virtual economy. This task is similar to the classic task of predicting stock prices on the stock market, yet also has the added novelty of being tied into the video game’s well defined dynamics, making this a very interesting task. While stocks in the real marketplace exhibit chaotic and uncertain relationships with one another, video game market items have pre-programmed and well-documented interactions and relationships. Choosing a virtual game-based economy gives us an opportunity to pioneer the entire machine learning process in a classically familiar yet unique space.
                 </p>
                 <p>
-                    In our investigation, we focus on Runescape’s virtual economy due to the game’s centralization of the economy in a well documented virtual marketplace where data is aggregated and historical records can be accessed through provided APIs. When we initially set out, we had a specific metric for prediction validity in mind, but as machine learning projects tend to go, every step of the project proved to be a pathfinding process of its own. Ultimately, we settled on aiming to predict items’ day to day % change.
+                    In our investigation, we focus on Runescape’s virtual economy due to the game’s centralization of the economy in a well documented virtual marketplace where data is aggregated and historical records can be accessed through provided APIs.
                 </p>
             </div>
         </div>
@@ -126,41 +151,20 @@
                 <p>
                     The Runescape API provides price and category data, but does not provide any other attributes such as other pricing or trading metrics. Using their provided API, we first scraped this and arrived at a daily updated times series list of prices for all 4106 tradeable virtual items over the course of 205 days, each with a category attribute attached.
                 </p>
-                <h3><em>Feature Set - Initial</em></h3> 
+                <h3><em>Final Feature Set</em></h3> 
                 <p>
-                    Initially, we constructed a feature set using Node.js and Ruby scripts to mimic what stock sites offer in classical applications of stock market prediction. This traditional approach set contains summary variables for each data point as follows:
-                </p>
-                <li><p>current price
-                <li><p>yesterday’s price
-                <li><p>price 1 week ago</li></p>
-                <li><p> price 30 days ago</li></p>
-                <li><p> average price over past 30 day</li></p>
-                <li><p> minimum price over past 30 day</li></p>
-                <li><p> and minimum price over past 30 day</li></p>
-                <p>
-                    Applying various regression learners in Weka on this set, we tried to predict the price of any given item 1 day into the future. However, here we found that although the virtual market displays interesting trends, majority of the items are very static with very little day to day change. Even when using learners in Weka with relatively less insight such as 1 nearest neighbor, we achieved > 0.99 R on the market predictions. This is a high accuracy but is far from insightful, since predicting no change yielded similar accuracy, so we adjusted our approach following this discovery.
-                </p>
-                <h3><em>Feature Set - Iteration</em></h3> 
-                <p>
-                    Thereafter, we tried a more machine learning oriented approach for feature generation. To try to provide the learner with as much relevant trend information as possible, we then created a new feature set based on daily changes. This delta approach feature set contained summary variables based on adjusted daily changes as a set of changes over 30 days as follows:
+                    After an iterative feature set creation process, we settled on a delta approach feature set. This delta approach feature set contained summary variables based on adjusted daily changes as a set of changes over 30 days as follows:
                 </p>
                 <li><p>% change from today to yesterday</li></p>
                 <li><p>% change from yesterday to 2 days ago</li></p>
                 <li><p>… </li></p>
                 <li><p>% change from 28 days ago to 29 days ago</li></p>
                 <p>
-                    Using this set, we pivoted to not predict the price of an item in the future, but to try predicting the direction (e.g. up/down/same) of the change, and also the exact % change (e.g. --2%,0,+1%) for the next day. This way, we get to test regression and classification, and see how a trade off in prediction exactness (for just predicting a direction without giving a magnitude) can affect accuracy. We reformulated our feature set to create the delta feature approach set at this point. For our learners, we tried using Decision Trees, Nearest neighbor, and Multilayer Perceptrons.
+                    Using this set, we predict the direction (e.g. up/down/same) of the change, and also the exact % change (e.g. --2%,0,+1%) for the next day. This way, we get to test regression and classification, and see how a trade off in prediction exactness (for just predicting a direction without giving a magnitude) can affect accuracy. We used many learners including Decision Trees, Nearest neighbor, and Multilayer Perceptrons.
                 </p>
                 <h3><em>Enhancing Model Generated Predictions</em></h3> 
                 <p>
-                    After building this model, we wanted to test how well the model could predict farther into the future. To do that, we created a long term predictor which iteratively fed results repeatedly through the 1 day regressor to predict prices further into the future (up to 25 days), before outputting the final change direction, instead of percent, since the actual change has a wider variance and will result in lower correlation values. With this approach, we also compare the predictions for next day prices (for fast flip, higher risk/reward investments) and with over about a month’s time (for longer term investments).
-                </p>
-                <h3><em>Testing and Training</em></h3>
-                <p>
-                    After observing the data, we found the “Crafting Materials” category to be of particular interest because of their high frequency of trading and thus volatile prices. In game, these are raw materials that people can process to make goods such as food, weapons, and armor, and are also used in bulk for people to train their in game skills levels with, so they are commonly traded. This makes items in this category the most meaningful test set not only due to higher difficulty due to price volatility, but because of the potential impact a good model could make.
-                </p>
-                <p>
-                    As a result, we used this category as our main set in an additional test to additionally observe if these items behave differently. Here, we trained models on everything, and also the category alone, and used this category for testing. We adjusted our classifier and data split settings in Weka before deciding on a final format. For classifiers, we used accuracy and F-measure as performance metrics, while for regressors we used the correlation coefficient R. For our 1 day models on crafting alone, we used 10 fold cross validation on our first 180 days of data. For our 1 day models trained on all data, we used a 75/25 split based on time, training on the first 135 days of data and validating with the last 45 days of crafting material prices. For the long term changes, we trained a regressor on the first 180 days, fed in the 181st day, and compared to the actual result for the 205th day and calculated an F-measure.
+                    To test how models can predict farther into the future, we also created a long term predictor which iteratively fed results repeatedly through the 1 day regressor to predict prices up to 25 days into the future.
                 </p>
             </div>
         </div>
@@ -172,161 +176,6 @@
         <div class="row">
             <h1>Results</h1>
             <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h3><em>Summary regressor, crafting only</em></h3>
-                        <table class="table table-bordered table-hover table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Learner</th>
-                                    <th>R Value</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1-nearest neighbor</td>
-                                    <td>0.2442</td>
-                                </tr>
-                                <tr>
-                                    <td>3-nearest neighbor</td>
-                                    <td>0.31</td>
-                                </tr>
-                                <tr>
-                                    <td>REPTree</td>
-                                    <td>0.17</td>
-                                </tr>
-                                <tr>
-                                    <td>Multilayer Perceptron</td>
-                                    <td>0.0328</td>
-                                </tr>
-                            </tbody>
-                        </table>                    
-                        <p>
-                            The best result came from 3 nearest neighbor with an R value of 0.31 (increasing from 0.2442 with 1 nearest). The REPTree only gave an R value of 0.17, and MultilayerPerceptron had 0.0328.
-                        </p>
-                    </div>
-                    <div class="col-md-6">
-                        <h3><em>Summary classifier, crafting only</em></h3>
-                        <table class="table table-bordered table-hover table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Learner</th>
-                                    <th>Accuracy</th>
-                                    <th>F-Measure</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>ZeroR</td>
-                                    <td>56.685%</td>
-                                    <td>0.41</td>
-                                </tr>
-                                <tr>
-                                    <td>10-Nearest Neighbor</td>
-                                    <td>70.5627%</td>
-                                    <td>0.69</td>
-                                </tr>
-                                <tr>
-                                    <td>J48 Decision Trees</td>
-                                    <td>70.0979%</td>
-                                    <td>0.684</td>
-                                </tr>
-                                <tr>
-                                    <td>Multilayer Perceptron</td>
-                                    <td>56.685%</td>
-                                    <td class="inactive"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <p>
-                            Baseline of ZeroR: 56.685% accuracy and 0.41 F-measure.
-                            The best result came from 10 nearest neighbor and J48 decision trees with accuracy/F-measure of 70.5627%/0.69 and 70.0979%/0.684. MultilayerPerceptron had 56.685% accuracy, doing little better than ZeroR.
-                        </p>
-                        <p>
-                            Although R and F-measure aren’t directly related, the R values above show that our regressors explain very little (less than 10%) of the actual variance, and the classifiers do a much better job with 70% accuracy. The perceptron does a very poor job, likely because our features are in absolute terms while the prediction classes are in terms relative to one another, in percent.
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <h3><em>30 changes regressor, crafting only</em></h3>
-                        <table class="table table-bordered table-hover table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Learner</th>
-                                    <th>R Value</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Additive Regressor (Stumps)</td>
-                                    <td>0.4507</td>
-                                </tr>
-                                <tr>
-                                    <td>Additive Regressor (depth of 3 REPTrees)</td>
-                                    <td>0.4713</td>
-                                </tr>
-                                <tr>
-                                    <td>1-Nearest Neighbor</td>
-                                    <td>0.2695</td>
-                                </tr>
-                                <tr>
-                                    <td>Multilayer Perceptron</td>
-                                    <td>0.3015</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <p>
-                            The best result came from an additive regressor with a depth of 3 REPTrees, giving an R value of 0.4713 (increasing from 0.4507 with stumps). The nearest neighbor only gave an R value of 0.2695 (didn’t improve with more neighbors), and MultilayerPreceptron gave an R value of 0.3015.
-                        </p>
-                    </div>
-                    <div class="col-md-6">
-                        <h3><em>30 changes classifier, crafting only</em></h3>
-                        <table class="table table-bordered table-hover table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Learner</th>
-                                    <th>Accuracy</th>
-                                    <th>F-Measure</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>ZeroR</td>
-                                    <td>56.685%</td>
-                                    <td>0.41</td>
-                                </tr>
-                                <tr>
-                                    <td>J48</td>
-                                    <td>74.8443%</td>
-                                    <td>0.743</td>
-                                </tr>
-                                <tr>
-                                    <td>Multilayer Perceptron</td>
-                                    <td>69.6051%</td>
-                                    <td class="inactive"></td>
-                                </tr>
-                                <tr>
-                                    <td>k-Nearest Neighbor</td>
-                                    <td>66.7737%</td>
-                                    <td class="inactive"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <p>
-                            Baseline of ZeroR: 56.685% accuracy and 0.41 F-measure.
-                            The best result came from J48 decision trees + reduced error pruning with accuracy/F-measure of 74.8443%/0.743. MultilayerPreceptron had 69.6051% accuracy and kNN fell to 66.7737% accuracy.
-                        </p>
-                        <p>
-                            With the additional attributes, we see that the accuracy improves almost universally, although the nearest neighbor suffers from the additional dimensions diluting the distance measure.
-                        </p>
-                    </div>
-                </div>
-
-                <h3><em>1 day models with all data training</em></h3>
-                <p>
-                    Although all values increased marginally, the change was statistically negligible.
-                </p>
                 <h3><em>Long term predictions 104 crafting items</em></h3>
                 <table class="table table-bordered table-hover table-sm">
                     <thead>
@@ -360,18 +209,13 @@
                         <tr>
                             <td>ZeroR</td>
                             <td>60.6%</td>
-                            <td class="inactive"></td>
+                            <td>58.1%</td>
                         </tr>
                     </tbody>
                 </table>
                 <p>
-                    Perceptron all: 41.3% accuracy, crafting only: 32.7% accuracy
-                    REPTree for both: 52.3%
-                    Bagging REPTree all: 44.2% accuracy, crafting only 48.1% accuracy
-                    Depth 15 random tree all: 56.7% accuracy, crafting only 61.5% accuracy
-                    ZeroR: 60.6% accuracy predicting up
-                    This actually did worse over a long term period than ZeroR. In fact, these results fare worse than our 1 day predictions. We didn’t have too many examples for this test, but we see that this method we created might not work very well. Since we are only relying on price patterns and the game itself places restrictions on how the changes work to prevent price manipulations, it’s possible that we just don’t have enough data available to predict with appreciable accuracy, although further investigation is needed.
-                </p>        
+                    Most learners actually did worse over a long term period than ZeroR. In fact, these results fare worse than our 1 day predictions. We see that some of our learners while effective, are only effective in the short term before applying our iterative learner extension to predict 30 days into the future.
+                </p>
             </div>
         </div>
     </div>
@@ -382,23 +226,54 @@
         <div class="row">
             <h1>Conclusion</h1>
             <div class="container">
-                <h3><em>Future work</em></h3>
-                <p>
-                    We did a lot of experimenting with the price data, explored a lot of ML techniques, and got decent results. We can see that a learner based on price patterns alone can perform pretty well. However, we still had additional data available that we weren’t yet able to incorporate, such as the RuneScape Wiki’s data. One idea we had was to explore semantic relatedness to create trade groups or indexes, and combine the features of items within the group per data point (for example, a sword index would have an instance per day with the price information of each type of sword).
-                </p>
-                <p>
-                    Another attribute we’d like to consider are some of the soft price floors built into the game/market system. There’s an in-game spell which allows a player to convert an item into some specified amount of gold. This effectively creates a price floor on items which market prices rarely drop below. This is a great example of a market dynamic that we set out to investigate, which is exhibited by video game markets but could never be so simply manifested in real stock markets. However, unfortunately the task of obtaining comprehensive data to include this proved too challenging for the scope of this project.
+                <h3><em>Analysis</em></h3>
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <h3><em>Good Learners from Validation Comparison</em></h3>
+                            <div class="col-md-9">
+                                <img src="img/results_3.png" class="img-responsive" alt="Figure 1">
+                            </div>
+                            <div class="col-md-3">
+                                <img src="img/results_key.png" class="img-responsive" alt="Legend">
+                            </div>
+                        </div>        
+                        <p><i>
+                            When plotting the learner's predictions against the validation set, we see different learners perform differently. Here, the Random Tree learner surprisingly outperforms the other learners.
+                        </i></p>
+                        <div class="row">
+                            <h3><em>Long Term Failure</em></h3>
+                            <div class="col-md-9">
+                                <img src="img/results_1.png" class="img-responsive" alt="Figure 1">
+                            </div>
+                            <div class="col-md-3">
+                                <img src="img/results_key.png" class="img-responsive" alt="Legend">
+                            </div>
+                        </div>        
+                        <p><i>
+                            With even simple cases of clear trends over time, we see here that all learners fail at long term predictions. Even a simple exponential function would have been sufficient here.
+                        </i></p>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    Additional, since we mainly care about investing, we may want to use a different performance model focusing on our positive predictions that we’d buy, and weight based on the actual change. Data and market behaviour permitting (recall our initial static market issue), this would allow our machine learning project to ultimately deliver a model that is not only insightful, but also practical.
-                </p>
-                <h3><em>Links</em></h3>
+    <a name="s5"></a>
+    <hr>
+    <div class="container">
+        <div class="row">
+            <h1>Resources</h1>
+            <div class="container">
                 <br>
                 <div class="row">
                     <div class="col-md-3">
                         <div class="row">
                             <div class="col-md-2"></div>
                             <div class="col-md-8">
-                                <a class="btn btn-block btn-primary" href="https://github.com/Wayne-X/VideoGameML" role="button">
+                                <a class="btn btn-block btn-primary" href="https://github.com/Wayne-X/VideoGameML/tree/item-prices/items%20prices" role="button">
                                     Github
                                 </a>
                             </div>
@@ -471,11 +346,6 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-
-    <!-- Chart stuff -->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script src="js/drawCharts.js"></script>
-
     <script src="js/index.js"></script>
 
 </body>
