@@ -3,6 +3,17 @@
  * Code licensed under the Apache License v2.0.
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
+td.inactive {
+    background-color: #d7d7d7;
+}
+p {
+    text-indent: 5em;
+    font-weight: normal;
+    font-size:18px;
+}
+p.noindent {
+    text-indent: 0em;
+}
 body {
   padding-top: 60px;
 }
